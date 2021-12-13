@@ -1,0 +1,16 @@
+{
+  "testMatch": [
+    "**/src/*.test.ts"
+  ],
+  "transform": {
+    "\\.ts$": "ts-jest"
+  },
+  "globals": {
+    "ts-jest": {
+      "tsconfig": "./src/tsconfig-test.json"
+    }
+  },
+  "collectCoverageFrom": [
+    "src/index.ts"
+  ]
+}

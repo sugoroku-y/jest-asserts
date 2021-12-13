@@ -5,8 +5,8 @@
     "lib": [
       "ESNext"
     ],
-    "outDir": "../lib",
-    "sourceMap": true,
+    "outDir": "../",
+    "declaration": true,
     "strict": true,
     "strictNullChecks": true
   },

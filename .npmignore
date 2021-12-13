@@ -1,5 +1,3 @@
-/lib/*.map
-/src/
-/coverage/
-/.vscode/
-*.tgz
+/*
+!/index.js
+!/index.d.ts
