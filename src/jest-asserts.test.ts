@@ -19,21 +19,25 @@ import {
 
 describe('asserts', () => {
   test('assertToHaveProperty without value', () => {
+    // ```ts:#1
     const o = ((): { a: 1 } | { b: 1 } => ({ a: 1 }))();
     // @ts-expect-error ここではエラー
     o.a;
     assertToHaveProperty(o, 'a');
     // ここではエラーにならない
     o.a;
+    // ```
   });
 
   test('assertToHaveProperty with value', () => {
+    // ```ts:#2
     const o = ((): { t: 1; a: 1 } | { t: 2 } => ({ t: 1, a: 1 }))();
     // @ts-expect-error ここではエラー
     o.a;
     assertToHaveProperty(o, 't', 1 as const);
     // ここではエラーにならない
     o.a;
+    // ```
   });
 
   test('assertNotToHaveProperty without value', () => {
