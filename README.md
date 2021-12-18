@@ -8,7 +8,7 @@ TypeScriptの型ガードのための、JESTのアサーション関数群です
 
 今まで必要になったらその場その場で作っていたんですが、型に合わせて作り直すのが面倒になってきたのでGenericsで引数の型に合わせてうまくやってくれるようにしてみました。
 
-```ts:src/jest-asserts.test.ts#1
+```ts:./src/jest-asserts.test.ts#1
     const o = ((): { a: 1 } | { b: 1 } => ({ a: 1 }))();
     // @ts-expect-error ここではエラー
     o.a;
@@ -19,7 +19,7 @@ TypeScriptの型ガードのための、JESTのアサーション関数群です
 
 あわせて`expect(o).not.toBe～(...)`を呼ぶだけの`assertNotToBe～(o, ...)`も用意しています。
 
-```ts:src/jest-asserts.test.ts#2
+```ts:./src/jest-asserts.test.ts#2
     const o = ((): { t: 1; a: 1 } | { t: 2 } => ({ t: 1, a: 1 }))();
     // @ts-expect-error ここではエラー
     o.a;
