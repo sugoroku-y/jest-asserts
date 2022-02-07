@@ -8,11 +8,17 @@ TypeScriptの型ガードのための、JESTのアサーション関数群です
 
 今まで必要になったらその場その場で作っていたんですが、型に合わせて作り直すのが面倒になってきたのでGenericsで引数の型に合わせてうまくやってくれるようにしてみました。
 
+```ts
+import 'jest-asserts';
+```
+
+`import`だけは前もってしておいてください。
+
 ```ts:./src/jest-asserts.test.ts#1
     const o = ((): { a: 1 } | { b: 1 } => ({ a: 1 }))();
     // @ts-expect-error ここではエラー
     o.a;
-    assertToHaveProperty(o, 'a');
+    jestAsserts.assertToHaveProperty(o, 'a');
     // ここではエラーにならない
     o.a;
 ```
@@ -23,26 +29,27 @@ TypeScriptの型ガードのための、JESTのアサーション関数群です
     const o = ((): { t: 1; a: 1 } | { t: 2 } => ({ t: 1, a: 1 }))();
     // @ts-expect-error ここではエラー
     o.a;
-    assertToHaveProperty(o, 't', 1 as const);
+    jestAsserts.assertToHaveProperty(o, 't', 1 as const);
     // ここではエラーにならない
     o.a;
 ```
 
 ## Line up
 
-- assertToHaveProperty
-- assertNotToHaveProperty
-- assertToBeInstanceOf
-- assertNotToBeInstanceOf
-- assertToBeUndefined
-- assertNotToBeUndefined
-- assertToBeDefined
-- assertNotToBeDefined
-- assertToBeNull
-- assertNotToBeNull
-- assertToBeFalsy
-- assertNotToBeFalsy
-- assertToBeTruthy
-- assertNotToBeTruthy
-- assertToBe
-- assertNotToBe
+- jestAsserts.assert
+- jestAsserts.assertToHaveProperty
+- jestAsserts.assertNotToHaveProperty
+- jestAsserts.assertToBeInstanceOf
+- jestAsserts.assertNotToBeInstanceOf
+- jestAsserts.assertToBeUndefined
+- jestAsserts.assertNotToBeUndefined
+- jestAsserts.assertToBeDefined
+- jestAsserts.assertNotToBeDefined
+- jestAsserts.assertToBeNull
+- jestAsserts.assertNotToBeNull
+- jestAsserts.assertToBeFalsy
+- jestAsserts.assertNotToBeFalsy
+- jestAsserts.assertToBeTruthy
+- jestAsserts.assertNotToBeTruthy
+- jestAsserts.assertToBe
+- jestAsserts.assertNotToBe
