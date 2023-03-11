@@ -2,9 +2,7 @@
   "compilerOptions": {
     "target": "ES2018",
     "module": "commonjs",
-    "lib": [
-      "ESNext"
-    ],
+    "lib": ["ESNext"],
     "outDir": "../",
     "declaration": true,
     "esModuleInterop": true,
@@ -32,7 +30,5 @@
 
     "skipLibCheck": true
   },
-  "exclude": [
-    "*.test.ts"
-  ]
+  "exclude": ["*.test.ts"]
 }

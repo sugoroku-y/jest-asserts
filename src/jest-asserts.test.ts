@@ -1,4 +1,4 @@
-import '.';
+import * as jestAsserts from '.';
 
 describe('asserts', () => {
   test('assert', () => {
@@ -21,23 +21,23 @@ describe('asserts', () => {
   });
 
   test('assertToHaveProperty with value', () => {
-    // ```ts:#2
     const o = ((): { t: 1; a: 1 } | { t: 2 } => ({ t: 1, a: 1 }))();
     // @ts-expect-error ここではエラー
     o.a;
     jestAsserts.assertToHaveProperty(o, 't', 1 as const);
     // ここではエラーにならない
     o.a;
-    // ```
   });
 
   test('assertNotToHaveProperty without value', () => {
+    // ```ts:#2
     const o = ((): { a: 1 } | { b: 1 } => ({ a: 1 }))();
     // @ts-expect-error ここではエラー
     o.a;
     jestAsserts.assertNotToHaveProperty(o, 'b');
     // ここではエラーにならない
     o.a;
+    // ```
   });
 
   test('assertNotToHaveProperty with value', () => {
@@ -237,7 +237,6 @@ declare global {
 
 describe('assertion failure', () => {
   test('jestAsserts.assert', () => {
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(() => {
       jestAsserts.assert(((): boolean => false)(), 'message');
     }).toThrowStartedStackTraceByHere();
