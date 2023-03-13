@@ -1,27 +1,34 @@
-class AssertionFailure extends Error {
-  override name = 'AssertionFailure';
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace jest {
+    interface Matchers<R, T, _ = R & T> {
+      toBeTruthyWithMessage(message?: string): void;
+    }
+  }
 }
 
-/**
- * exで指定した例外にbaseに指定した関数の呼び出しを含まないスタックトレースを設定して投げ直す。
- *
- * @template {unknown[]} ARGS
- * @template R
- * @param {unknown} ex スタックトレースを設定する例外を指定する。
- * @param {(...args: ARGS) => R} base スタックトレースから除外する関数を指定する。
- * @returns {never} スタックトレースを設定した例外を投げるので、この関数から返ってくることはない
- */
-function rethrow<ARGS extends unknown[], R>(
-  ex: unknown,
-  base: (...args: ARGS) => R,
-): never {
-  // istanbul ignore next exがErrorでなかったり、Error.captureStackTraceがなかったりは多分しない
-  if (ex instanceof Error && Error.captureStackTrace) {
-    // baseの呼び出しまでのスタックトレースをex.stackに設定する
-    Error.captureStackTrace(ex, base);
-  }
-  throw ex;
-}
+expect.extend({
+  toBeTruthyWithMessage: function (
+    this: jest.MatcherContext,
+    received: unknown,
+    message?: string,
+  ): jest.CustomMatcherResult {
+    return received
+      ? {
+          pass: true,
+          message: () => '',
+        }
+      : {
+          pass: false,
+          message: () =>
+            `${this.utils.BOLD_WEIGHT(
+              'AssertionFailure',
+            )}: ${message}\n\nReceived: ${this.utils.RECEIVED_COLOR(
+              this.utils.stringify(received),
+            )}`,
+        };
+  },
+});
 
 /**
  * procで指定した処理を実行し、例外が投げられたらスタックトレースを再設定して投げ直す。
@@ -37,8 +44,13 @@ function wrap<ARGS extends unknown[], R>(
 ): void {
   try {
     proc();
-  } catch (ex: unknown) {
-    rethrow(ex, base);
+  } catch (ex) {
+    // istanbul ignore next exがErrorでなかったり、Error.captureStackTraceがなかったりは多分しない
+    if (ex instanceof Error && Error.captureStackTrace) {
+      // baseの呼び出しまでのスタックトレースをex.stackに設定する
+      Error.captureStackTrace(ex, base);
+    }
+    throw ex;
   }
 }
 
@@ -52,9 +64,9 @@ function wrap<ARGS extends unknown[], R>(
  * @param {string} [message] 例外に指定するメッセージ。
  */
 export function assert(value: unknown, message?: string): asserts value {
-  if (!value) {
-    rethrow(new AssertionFailure(message), assert);
-  }
+  wrap(() => {
+    expect(value).toBeTruthyWithMessage(message);
+  }, assert);
 }
 
 /**
