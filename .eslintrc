@@ -16,6 +16,13 @@
     "node": true
   },
   "rules": {
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
+    ],
     "@typescript-eslint/restrict-template-expressions": "off"
   }
 }
