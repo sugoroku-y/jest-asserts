@@ -2,177 +2,215 @@ import * as jestAsserts from '.';
 
 describe('asserts', () => {
   test('assert', () => {
-    const o = ((): { a: 1; b: 1 } | { b: 0 } => ({ a: 1, b: 1 }))();
-    // @ts-expect-error ここではエラー
-    o.a;
-    jestAsserts.assert(o.b);
-    // ここではエラーにならない
-    o.a;
+    expect(() => {
+      const o = ((): { a: 1; b: 1 } | { b: 0 } => ({ a: 1, b: 1 }))();
+      // @ts-expect-error ここではエラー
+      o.a;
+      jestAsserts.assert(o.b);
+      // ここではエラーにならない
+      o.a;
+    }).not.toThrow();
   });
   test('assertToHaveProperty without value', () => {
-    // ```ts:#1
-    const o = ((): { a: 1 } | { b: 1 } => ({ a: 1 }))();
-    // @ts-expect-error ここではエラー
-    o.a;
-    jestAsserts.assertToHaveProperty(o, 'a');
-    // ここではエラーにならない
-    o.a;
-    // ```
+    expect(() => {
+      // ```ts:#1
+      const o = ((): { a: 1 } | { b: 1 } => ({ a: 1 }))();
+      // @ts-expect-error ここではエラー
+      o.a;
+      jestAsserts.assertToHaveProperty(o, 'a');
+      // ここではエラーにならない
+      o.a;
+      // ```
+    }).not.toThrow();
   });
 
   test('assertToHaveProperty with value', () => {
-    const o = ((): { t: 1; a: 1 } | { t: 2 } => ({ t: 1, a: 1 }))();
-    // @ts-expect-error ここではエラー
-    o.a;
-    jestAsserts.assertToHaveProperty(o, 't', 1 as const);
-    // ここではエラーにならない
-    o.a;
+    expect(() => {
+      const o = ((): { t: 1; a: 1 } | { t: 2 } => ({ t: 1, a: 1 }))();
+      // @ts-expect-error ここではエラー
+      o.a;
+      jestAsserts.assertToHaveProperty(o, 't', 1 as const);
+      // ここではエラーにならない
+      o.a;
+    }).not.toThrow();
   });
 
   test('assertNotToHaveProperty without value', () => {
-    // ```ts:#2
-    const o = ((): { a: 1 } | { b: 1 } => ({ a: 1 }))();
-    // @ts-expect-error ここではエラー
-    o.a;
-    jestAsserts.assertNotToHaveProperty(o, 'b');
-    // ここではエラーにならない
-    o.a;
-    // ```
+    expect(() => {
+      // ```ts:#2
+      const o = ((): { a: 1 } | { b: 1 } => ({ a: 1 }))();
+      // @ts-expect-error ここではエラー
+      o.a;
+      jestAsserts.assertNotToHaveProperty(o, 'b');
+      // ここではエラーにならない
+      o.a;
+      // ```
+    }).not.toThrow();
   });
 
   test('assertNotToHaveProperty with value', () => {
-    const o = ((): { t: 1; a: 1 } | { t: 2 } => ({ t: 1, a: 1 }))();
-    // @ts-expect-error ここではエラー
-    o.a;
-    jestAsserts.assertNotToHaveProperty(o, 't', 2 as const);
-    // ここではエラーにならない
-    o.a;
+    expect(() => {
+      const o = ((): { t: 1; a: 1 } | { t: 2 } => ({ t: 1, a: 1 }))();
+      // @ts-expect-error ここではエラー
+      o.a;
+      jestAsserts.assertNotToHaveProperty(o, 't', 2 as const);
+      // ここではエラーにならない
+      o.a;
+    }).not.toThrow();
   });
 
   test('assertToBeInstanceOf', () => {
-    const o = ((): Date | RegExp => /a/)();
-    // @ts-expect-error ここではエラー
-    o.lastIndex;
-    jestAsserts.assertToBeInstanceOf(o, RegExp);
-    // ここではエラーにならない
-    o.lastIndex;
+    expect(() => {
+      const o = ((): Date | RegExp => /a/)();
+      // @ts-expect-error ここではエラー
+      o.lastIndex;
+      jestAsserts.assertToBeInstanceOf(o, RegExp);
+      // ここではエラーにならない
+      o.lastIndex;
+    }).not.toThrow();
   });
 
   test('assertNotToBeInstanceOf', () => {
-    const o = ((): Date | RegExp => /a/)();
-    // @ts-expect-error ここではエラー
-    o.lastIndex;
-    jestAsserts.assertNotToBeInstanceOf(o, Date);
-    // ここではエラーにならない
-    o.lastIndex;
+    expect(() => {
+      const o = ((): Date | RegExp => /a/)();
+      // @ts-expect-error ここではエラー
+      o.lastIndex;
+      jestAsserts.assertNotToBeInstanceOf(o, Date);
+      // ここではエラーにならない
+      o.lastIndex;
+    }).not.toThrow();
   });
 
   test('assertToBeUndefined', () => {
-    const o = ((): { a: 1; b?: never } | { b: 1 } => ({ a: 1 }))();
-    // @ts-expect-error ここではエラー
-    o.a;
-    jestAsserts.assertToBeUndefined(o.b);
-    // ここではエラーにならない
-    o.a;
+    expect(() => {
+      const o = ((): { a: 1; b?: never } | { b: 1 } => ({ a: 1 }))();
+      // @ts-expect-error ここではエラー
+      o.a;
+      jestAsserts.assertToBeUndefined(o.b);
+      // ここではエラーにならない
+      o.a;
+    }).not.toThrow();
   });
 
   test('assertNotToBeUndefined', () => {
-    const o = ((): { a: 1 } | undefined => ({ a: 1 }))();
-    // @ts-expect-error ここではエラー
-    o.a;
-    jestAsserts.assertNotToBeUndefined(o);
-    // ここではエラーにならない
-    o.a;
+    expect(() => {
+      const o = ((): { a: 1 } | undefined => ({ a: 1 }))();
+      // @ts-expect-error ここではエラー
+      o.a;
+      jestAsserts.assertNotToBeUndefined(o);
+      // ここではエラーにならない
+      o.a;
+    }).not.toThrow();
   });
 
   test('assertToBeDefined', () => {
-    const o = ((): { a: 1 } | undefined => ({ a: 1 }))();
-    // @ts-expect-error ここではエラー
-    o.a;
-    jestAsserts.assertToBeDefined(o);
-    // ここではエラーにならない
-    o.a;
+    expect(() => {
+      const o = ((): { a: 1 } | undefined => ({ a: 1 }))();
+      // @ts-expect-error ここではエラー
+      o.a;
+      jestAsserts.assertToBeDefined(o);
+      // ここではエラーにならない
+      o.a;
+    }).not.toThrow();
   });
 
   test('assertNotToBeDefined', () => {
-    const o = ((): { a: 1; b?: never } | { b: 1 } => ({ a: 1 }))();
-    // @ts-expect-error ここではエラー
-    o.a;
-    jestAsserts.assertNotToBeDefined(o.b);
-    // ここではエラーにならない
-    o.a;
+    expect(() => {
+      const o = ((): { a: 1; b?: never } | { b: 1 } => ({ a: 1 }))();
+      // @ts-expect-error ここではエラー
+      o.a;
+      jestAsserts.assertNotToBeDefined(o.b);
+      // ここではエラーにならない
+      o.a;
+    }).not.toThrow();
   });
 
   test('assertToBeNull', () => {
-    const o = ((): { a: 1; b: null } | { b: 1 } => ({ a: 1, b: null }))();
-    // @ts-expect-error ここではエラー
-    o.a;
-    jestAsserts.assertToBeNull(o.b);
-    // ここではエラーにならない
-    o.a;
+    expect(() => {
+      const o = ((): { a: 1; b: null } | { b: 1 } => ({ a: 1, b: null }))();
+      // @ts-expect-error ここではエラー
+      o.a;
+      jestAsserts.assertToBeNull(o.b);
+      // ここではエラーにならない
+      o.a;
+    }).not.toThrow();
   });
 
   test('assertNotToBeNull', () => {
-    const o = ((): { a: 1; b: 1 } | { b: null } => ({ a: 1, b: 1 }))();
-    // @ts-expect-error ここではエラー
-    o.a;
-    jestAsserts.assertNotToBeNull(o.b);
-    // ここではエラーにならない
-    o.a;
+    expect(() => {
+      const o = ((): { a: 1; b: 1 } | { b: null } => ({ a: 1, b: 1 }))();
+      // @ts-expect-error ここではエラー
+      o.a;
+      jestAsserts.assertNotToBeNull(o.b);
+      // ここではエラーにならない
+      o.a;
+    }).not.toThrow();
   });
 
   test('assertToBeFalsy', () => {
-    const o = ((): { a: 1; b?: 0 } | { b: 1 } => ({ a: 1 }))();
-    // @ts-expect-error ここではエラー
-    o.a;
-    jestAsserts.assertToBeFalsy(o.b);
-    // ここではエラーにならない
-    o.a;
+    expect(() => {
+      const o = ((): { a: 1; b?: 0 } | { b: 1 } => ({ a: 1 }))();
+      // @ts-expect-error ここではエラー
+      o.a;
+      jestAsserts.assertToBeFalsy(o.b);
+      // ここではエラーにならない
+      o.a;
+    }).not.toThrow();
   });
 
   test('assertNotToBeFalsy', () => {
-    const o = ((): { a: 1; b: 1 } | { b?: 0 } => ({ a: 1, b: 1 }))();
-    // @ts-expect-error ここではエラー
-    o.a;
-    jestAsserts.assertNotToBeFalsy(o.b);
-    // ここではエラーにならない
-    o.a;
+    expect(() => {
+      const o = ((): { a: 1; b: 1 } | { b?: 0 } => ({ a: 1, b: 1 }))();
+      // @ts-expect-error ここではエラー
+      o.a;
+      jestAsserts.assertNotToBeFalsy(o.b);
+      // ここではエラーにならない
+      o.a;
+    }).not.toThrow();
   });
 
   test('assertToBeTruthy', () => {
-    const o = ((): { a: 1; b: 1 } | { b: 0 } => ({ a: 1, b: 1 }))();
-    // @ts-expect-error ここではエラー
-    o.a;
-    jestAsserts.assertToBeTruthy(o.b);
-    // ここではエラーにならない
-    o.a;
+    expect(() => {
+      const o = ((): { a: 1; b: 1 } | { b: 0 } => ({ a: 1, b: 1 }))();
+      // @ts-expect-error ここではエラー
+      o.a;
+      jestAsserts.assertToBeTruthy(o.b);
+      // ここではエラーにならない
+      o.a;
+    }).not.toThrow();
   });
 
   test('assertNotToBeTruthy', () => {
-    const o = ((): { a: 1; b?: 0 } | { b: 1 } => ({ a: 1 }))();
-    // @ts-expect-error ここではエラー
-    o.a;
-    jestAsserts.assertNotToBeTruthy(o.b);
-    // ここではエラーにならない
-    o.a;
+    expect(() => {
+      const o = ((): { a: 1; b?: 0 } | { b: 1 } => ({ a: 1 }))();
+      // @ts-expect-error ここではエラー
+      o.a;
+      jestAsserts.assertNotToBeTruthy(o.b);
+      // ここではエラーにならない
+      o.a;
+    }).not.toThrow();
   });
 
   test('assertToBe', () => {
-    const o = ((): { a: 1; b: 1 } | { b: 2 } => ({ a: 1, b: 1 }))();
-    // @ts-expect-error ここではエラー
-    o.a;
-    jestAsserts.assertToBe(o.b, 1 as const);
-    // ここではエラーにならない
-    o.a;
+    expect(() => {
+      const o = ((): { a: 1; b: 1 } | { b: 2 } => ({ a: 1, b: 1 }))();
+      // @ts-expect-error ここではエラー
+      o.a;
+      jestAsserts.assertToBe(o.b, 1 as const);
+      // ここではエラーにならない
+      o.a;
+    }).not.toThrow();
   });
 
   test('assertNotToBe', () => {
-    const o = ((): { a: 1; b?: 0 } | { b: 2 } => ({ a: 1 }))();
-    // @ts-expect-error ここではエラー
-    o.a;
-    jestAsserts.assertNotToBe(o.b, 2 as const);
-    // ここではエラーにならない
-    o.a;
+    expect(() => {
+      const o = ((): { a: 1; b?: 0 } | { b: 2 } => ({ a: 1 }))();
+      // @ts-expect-error ここではエラー
+      o.a;
+      jestAsserts.assertNotToBe(o.b, 2 as const);
+      // ここではエラーにならない
+      o.a;
+    }).not.toThrow();
   });
 });
 

@@ -222,6 +222,7 @@ export function assertNotToBeUndefined<ACTUAL>(
   actual: ACTUAL,
 ): asserts actual is Exclude<ACTUAL, undefined> {
   wrap(() => {
+    // eslint-disable-next-line jest/prefer-to-be
     expect(actual).not.toBeUndefined();
   }, assertNotToBeUndefined);
 }
@@ -254,6 +255,7 @@ export function assertNotToBeDefined(
   actual: unknown,
 ): asserts actual is undefined {
   wrap(() => {
+    // eslint-disable-next-line jest/prefer-to-be
     expect(actual).not.toBeDefined();
   }, assertNotToBeDefined);
 }
