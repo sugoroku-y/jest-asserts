@@ -1,6 +1,6 @@
 {
   "name": "jest-asserts",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Assertion functions of jest for type guard in TypeScript",
   "scripts": {
     "lint:eslint": "eslint ./src",
