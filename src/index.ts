@@ -21,9 +21,9 @@ expect.extend({
       : {
           pass: false,
           message: () =>
-            `${this.utils.BOLD_WEIGHT(
-              'AssertionFailure',
-            )}: ${message}\n\nReceived: ${this.utils.RECEIVED_COLOR(
+            `AssertionFailure: ${this.utils.BOLD_WEIGHT(
+              message,
+            )}\n\nReceived: ${this.utils.RECEIVED_COLOR(
               this.utils.stringify(received),
             )}`,
         };
