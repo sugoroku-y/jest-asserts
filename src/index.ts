@@ -69,6 +69,36 @@ export function assert(value: unknown, message?: string): asserts value {
   }, assert);
 }
 
+/** toHavePropertyでチェックしているプロパティを持つオブジェクト型 */
+type NestedProperty<
+  NAME extends string | readonly [string, ...string[]],
+  VALUE = unknown,
+> = NAME extends readonly [infer LEFT]
+  ? LEFT extends string
+    ? { [K in LEFT]: VALUE }
+    : never
+  : NAME extends readonly [infer LEFT, ...infer RIGHT]
+  ? LEFT extends string
+    ? RIGHT extends readonly [string, ...string[]]
+      ? { [K in LEFT]: NestedProperty<RIGHT, VALUE> }
+      : never
+    : never
+  : NAME extends `${infer LEFT}.${infer RIGHT}`
+  ? { [K in LEFT]: NestedProperty<RIGHT, VALUE> }
+  : NAME extends string
+  ? { [K in NAME]: VALUE }
+  : never;
+
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace jest {
+    interface Matchers<R, T, _ = R & T> {
+      // toHavePropertyのpropertyPathにreadonlyの配列を指定できるようにする
+      toHaveProperty<E>(propertyPath: string | readonly string[], value?: E): R;
+    }
+  }
+}
+
 /**
  * actualがnameプロパティを持たない場合にテストに失敗させる。
  *
@@ -79,10 +109,9 @@ export function assert(value: unknown, message?: string): asserts value {
  * @param {unknown} actual
  * @param {NAME} name
  */
-export function assertToHaveProperty<NAME extends string>(
-  actual: unknown,
-  name: NAME,
-): asserts actual is { [N in NAME]: unknown };
+export function assertToHaveProperty<
+  NAME extends string | readonly [string, ...string[]],
+>(actual: unknown, name: NAME): asserts actual is NestedProperty<NAME>;
 
 /**
  * actualがnameプロパティにvalueという値を持たない場合にテストに失敗させる。
@@ -96,16 +125,19 @@ export function assertToHaveProperty<NAME extends string>(
  * @param {NAME} name
  * @param {VALUE} value
  */
-export function assertToHaveProperty<NAME extends string, VALUE>(
+export function assertToHaveProperty<
+  NAME extends string | readonly [string, ...string[]],
+  VALUE,
+>(
   actual: unknown,
   name: NAME,
   value: VALUE,
-): asserts actual is { [N in NAME]: VALUE };
+): asserts actual is NestedProperty<NAME, VALUE>;
 
 // assertToHavePropertyの実装
 export function assertToHaveProperty(
   actual: unknown,
-  ...expected: [name: string, value?: unknown]
+  ...expected: [name: string | readonly [string, ...string[]], value?: unknown]
 ) {
   wrap(() => {
     expect(actual).toHaveProperty(...expected);
@@ -123,10 +155,13 @@ export function assertToHaveProperty(
  * @param {ACTUAL} actual
  * @param {NAME} name
  */
-export function assertNotToHaveProperty<ACTUAL, NAME extends string>(
+export function assertNotToHaveProperty<
+  ACTUAL,
+  NAME extends string | readonly [string, ...string[]],
+>(
   actual: ACTUAL,
   name: NAME,
-): asserts actual is Exclude<ACTUAL, { [N in NAME]: unknown }>;
+): asserts actual is Exclude<ACTUAL, NestedProperty<NAME>>;
 /**
  * actualがnameプロパティにvalueという値を持つ場合にテストに失敗させる。
  *
@@ -139,15 +174,19 @@ export function assertNotToHaveProperty<ACTUAL, NAME extends string>(
  * @param {NAME} name
  * @param {VALUE} value
  */
-export function assertNotToHaveProperty<ACTUAL, NAME extends string, VALUE>(
+export function assertNotToHaveProperty<
+  ACTUAL,
+  NAME extends string | readonly [string, ...string[]],
+  VALUE,
+>(
   actual: ACTUAL,
   name: NAME,
   value: VALUE,
-): asserts actual is Exclude<ACTUAL, { [N in NAME]: VALUE }>;
+): asserts actual is Exclude<ACTUAL, NestedProperty<NAME, VALUE>>;
 // assertNotToHavePropertyの実装
 export function assertNotToHaveProperty(
   actual: unknown,
-  ...expected: [name: string, value?: unknown]
+  ...expected: [name: string | readonly [string, ...string[]], value?: unknown]
 ) {
   wrap(() => {
     expect(actual).not.toHaveProperty(...expected);
