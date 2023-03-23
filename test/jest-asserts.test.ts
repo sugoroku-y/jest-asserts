@@ -1,4 +1,4 @@
-import * as jestAsserts from '.';
+import * as jestAsserts from '../';
 
 describe('asserts', () => {
   test('assert', () => {

@@ -8,10 +8,16 @@
     "plugin:jest/style",
     "prettier"
   ],
-  "plugins": ["jest", "@typescript-eslint"],
+  "plugins": [
+    "jest",
+    "@typescript-eslint"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": ["src/tsconfig.json", "src/tsconfig-test.json"]
+    "project": [
+      "src/tsconfig.json",
+      "test/tsconfig.json"
+    ]
   },
   "env": {
     "jest/globals": true,
@@ -19,8 +25,15 @@
     "node": true
   },
   "rules": {
-    "jest/consistent-test-it": ["error", { "fn": "test" }],
-    "jest/require-top-level-describe": ["error"],
+    "jest/consistent-test-it": [
+      "error",
+      {
+        "fn": "test"
+      }
+    ],
+    "jest/require-top-level-describe": [
+      "error"
+    ],
     "@typescript-eslint/no-unused-vars": [
       "error",
       {

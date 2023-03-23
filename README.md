@@ -14,7 +14,7 @@ import * as jestAsserts from 'jest-asserts';
 
 `import`だけは前もってしておいてください。
 
-```ts:./src/jest-asserts.test.ts#1
+```ts:./test/jest-asserts.test.ts#1
     const o = ((): { a: 1 } | { b: 1 } => ({ a: 1 }))();
     // @ts-expect-error ここではエラー
     o.a;
@@ -25,7 +25,7 @@ import * as jestAsserts from 'jest-asserts';
 
 あわせて`expect(o).not.toBe～(...)`を呼ぶだけの`assertNotToBe～(o, ...)`も用意しています。
 
-```ts:./src/jest-asserts.test.ts#2
+```ts:./test/jest-asserts.test.ts#2
     const o = ((): { a: 1 } | { b: 1 } => ({ a: 1 }))();
     // @ts-expect-error ここではエラー
     o.a;

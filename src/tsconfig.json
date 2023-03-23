@@ -25,10 +25,10 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
-    "allowUnusedLabels": true,
-    "allowUnreachableCode": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
 
     "skipLibCheck": true
   },
-  "exclude": ["*.test.ts"]
+  "exclude": []
 }
